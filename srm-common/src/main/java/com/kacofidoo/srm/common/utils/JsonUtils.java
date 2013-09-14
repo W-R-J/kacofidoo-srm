@@ -1,7 +1,5 @@
 package com.kacofidoo.srm.common.utils;
 
-import java.util.Date;
-import java.util.HashMap;
 import java.util.Map;
 
 import com.google.gson.Gson;
@@ -28,14 +26,9 @@ public final class JsonUtils {
 		return gson.fromJson(json, clazz);
 	}
 
-	public static void main(String[] args) {
-		Map<String, Object> m = new HashMap<String, Object>();
-		m.put("fff", "fwef");
-		m.put("f2ww", new Date());
-		String json = toJson(m);
-		Map map = fromJson(json, Map.class);
-		System.out.println(map);
-		
+	@SuppressWarnings("unchecked")
+	public static final Map<String, Object> fromJson(final String json) {
+		return fromJson(json, Map.class);
 	}
 
 }
