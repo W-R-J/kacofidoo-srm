@@ -11,6 +11,10 @@
 	<packaging>war</packaging>
 	<name>srm-console</name>
 
+	<properties>
+		<shiro.version>1.2.2</shiro.version>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework</groupId>
@@ -26,6 +30,18 @@
 			<groupId>com.kacofidoo.srm</groupId>
 			<artifactId>srm-orm</artifactId>
 			<version>${project.version}</version>
+		</dependency>
+
+		<!-- shiro security -->
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring</artifactId>
+			<version>${shiro.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-ehcache</artifactId>
+			<version>${shiro.version}</version>
 		</dependency>
 
 		<!-- Servlet -->
