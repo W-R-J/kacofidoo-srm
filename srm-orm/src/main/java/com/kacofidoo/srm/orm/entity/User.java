@@ -19,7 +19,7 @@ public class User implements Serializable {
 	public static final int GENDER_MALE = 1;
 	public static final int GENDER_FEMALE = 2;
 
-	private String id;
+	private long id;
 	private String name;
 	private String nickname;
 	private int age;
@@ -48,7 +48,7 @@ public class User implements Serializable {
 		return gender;
 	}
 
-	public String getId() {
+	public long getId() {
 		return id;
 	}
 
@@ -92,7 +92,7 @@ public class User implements Serializable {
 		this.gender = gender;
 	}
 
-	public void setId(String id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 

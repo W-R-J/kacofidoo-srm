@@ -11,20 +11,25 @@
 		<property name="cacheManager" ref="shiroEhcacheManager" />
 	</bean>
 	<!--realm配置，realm是shiro的桥梁，它主要是用来判断subject是否可以登录及权限等 -->
-	<bean id="globalAuthorizingRealm" class="com.kacofidoo.srm.console.security.GlobalAuthorizingRealm" />
+	<!-- <bean id="globalAuthorizingRealm" class="com.kacofidoo.srm.console.security.GlobalAuthorizingRealm" />  -->
 	<!--shiro过滤器配置，bean的id值须与web中的filter-name的值相同 -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />
 		<!-- 没有权限或者失败后跳转的页面 -->
 		<property name="loginUrl" value="/login.html" />
 		<property name="successUrl" value="/static/index.jsp" />
-		<property name="unauthorizedUrl" value="/login.html" />
+		<property name="unauthorizedUrl" value="/static/404.html" />
 		<property name="filterChainDefinitions">
 			<value>
-				/login/logout=logout
-				/login/**=anon
-				/**=authc,rest
+				/login.html=anon
+				/auth/logout=logout
+				/auth/login=anon
+				/static/**=anon
+
 			</value>
+							<!-- 
+				/**=authc,rest
+				 -->
 		</property>
 	</bean>
 	<!-- 用户授权/认证信息Cache, 采用EhCache 缓存 -->

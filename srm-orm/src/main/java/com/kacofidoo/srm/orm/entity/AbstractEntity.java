@@ -21,10 +21,11 @@ public abstract class AbstractEntity implements Serializable {
 	private static final long serialVersionUID = 4066940986699055297L;
 
 	private int storeStatus = STORE_DEFAULT;
-	public Date createTime;
-	public Date modifyTime;
-	public String creator;
-	public String modifier;
+
+	private Date createTime;
+	private Date modifyTime;
+	private String creator;
+	private String modifier;
 
 	public int getStoreStatus() {
 		return storeStatus;

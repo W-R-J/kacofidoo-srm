@@ -1,6 +1,8 @@
-package com.kacofidoo.srm.common.utils;
+package com.kacofidoo.srm.orm.utils;
 
 import java.net.InetAddress;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * 唯一主键生成办法。从Hibernate中提取出来。我一直觉得这不错，不用建什么Sequence
@@ -11,7 +13,7 @@ import java.net.InetAddress;
  */
 public class UUIDGenerator {
 
-	private static UUIDGenerator INSTANCE = new UUIDGenerator();
+	private static final UUIDGenerator UUID_GENERATOR = new UUIDGenerator();
 
 	private static final int IP;
 
@@ -24,23 +26,18 @@ public class UUIDGenerator {
 	}
 
 	static {
-		synchronized (UUIDGenerator.class) {
-			int ipadd;
-			try {
-				ipadd = IptoInt(InetAddress.getLocalHost().getAddress());
-			} catch (Exception e) {
-				ipadd = 0;
-			}
-			IP = ipadd;
-			if (INSTANCE == null) {
-				INSTANCE = new UUIDGenerator();
-			}
+		int ipadd;
+		try {
+			ipadd = IptoInt(InetAddress.getLocalHost().getAddress());
+		} catch (Exception e) {
+			ipadd = 0;
 		}
+		IP = ipadd;
 	}
 	private static short counter = (short) 0;
 	private static final int JVM = (int) (System.currentTimeMillis() >>> 8);
 
-	private UUIDGenerator() {
+	public UUIDGenerator() {
 	}
 
 	/**
@@ -95,16 +92,42 @@ public class UUIDGenerator {
 		return buf.toString();
 	}
 
-	private String create() {
+	public String create() {
 		return new StringBuffer(36).append(format(getIP())).append(sep).append(format(getJVM())).append(sep).append(format(getHiTime()))
 				.append(sep).append(format(getLoTime())).append(sep).append(format(getCount())).toString();
 	}
 
-	/**
-	 * @return
-	 */
 	public static final String generate() {
-		return INSTANCE.create();
+		return UUID_GENERATOR.create();
+	}
+
+	public static Set<String> set = new HashSet<String>();
+
+	public static void main(String[] args) throws InterruptedException {
+		int threadNum = 100;
+		Thread[] threads = new Thread[threadNum];
+		for (int i = 0; i <= threadNum; i++) {
+			threads[i] = new Thread(new Runnable() {
+
+				@Override
+				public void run() {
+					while (true) {
+						String foo = generate();
+						if (set.contains(foo)) {
+							System.out.println("unsafe");
+							System.exit(1);
+						} else {
+							set.add(foo);
+							System.out.println(foo);
+						}
+					}
+				}
+			});
+			threads[i].start();
+		}
+		for (int i = 0; i < 100; i++) {
+			threads[i].join();
+		}
 	}
 
 }

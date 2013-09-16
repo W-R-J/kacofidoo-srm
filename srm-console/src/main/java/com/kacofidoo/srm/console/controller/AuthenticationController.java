@@ -19,9 +19,9 @@ import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kacofidoo.srm.console.service.UserService;
+import com.kacofidoo.srm.console.vo.LoginCommand;
 
 /**
  * @author Jeff.Tsai
@@ -37,12 +37,13 @@ public class AuthenticationController {
 	private UserService userService;
 
 	@RequestMapping("/login")
-	public String login(String loginName, String loginPassword, int loginType,
-			@RequestParam(required = false, value = "isRememberMe", defaultValue = "false") boolean isRememberMe,
-			HttpServletRequest request, HttpServletResponse response) {
-		UsernamePasswordToken token = new UsernamePasswordToken(loginName, loginPassword);
+	public String login(HttpServletRequest request, HttpServletResponse response, Object loginCommand) {
+
+		LoginCommand cmd = (LoginCommand) loginCommand;
+
+		UsernamePasswordToken token = new UsernamePasswordToken(cmd.getUsername(), cmd.getPassword());
 		// 记录该令牌
-		token.setRememberMe(isRememberMe);
+		token.setRememberMe(cmd.isRememberMe());
 		// subject权限对象
 		Subject subject = SecurityUtils.getSubject();
 		int errorCode = 3;
