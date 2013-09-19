@@ -110,11 +110,14 @@
 	</error-page>
 	<error-page>
 		<error-code>404</error-code>
-		<location>/static/404.html</location>
+f		<location>/static/404.html</location>
 	</error-page>
 
 	<welcome-file-list>
-		<welcome-file>/login.html</welcome-file>
+		<welcome-file>login.html</welcome-file>
+        <welcome-file>login.jsp</welcome-file>
+        <welcome-file>index.html</welcome-file>
+        <welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
 
 </web-app>

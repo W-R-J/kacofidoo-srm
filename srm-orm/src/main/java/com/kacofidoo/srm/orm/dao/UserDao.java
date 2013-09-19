@@ -19,7 +19,7 @@ public interface UserDao {
 	@Select("select * from srm_user where name=#{username}")
 	User getUserByName(@Param("username") String username) throws SrmDaoException;
 
-	@Insert("insert into user(gender,company_id,company_admin_flag,age,name,nickname,password,purchaser_flag,sale_flag,system_admin_flag) values(#{gener},#{companyId},#{companyAdminFlag},#{age},#{name},#{nickname},#{password},#{purchaserFlag},#{saleFlag},#{systemAdminFlag})")
+	@Insert("insert into srm_user(gender,company_id,company_admin_flag,birthday,name,nickname,password,system_admin_flag) values(#{gender},#{companyId},#{companyAdminFlag},#{birthday},#{name},#{nickname},#{password},#{systemAdminFlag})")
 	@Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
 	void insert(User user) throws SrmDaoException;
 
