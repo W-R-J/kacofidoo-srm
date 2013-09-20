@@ -23,7 +23,7 @@ public interface UserDao {
 	User getUserByName(@Param("username") String username);
 
 	@Insert("insert into srm_user(gender,company_id,company_admin_flag,birthday,name,nickname,password,system_admin_flag,create_time,creator,modifier,modify_time,status)"
-			+ " values(#{gender},#{companyId},#{companyAdminFlag},#{birthday},#{name},#{nickname},#{password},#{systemAdminFlag},#{createTime},#{creator},#{modifier},#{modify_time},#{status})")
+			+ " values(#{gender},#{companyId},#{companyAdminFlag},#{birthday},#{name},#{nickname},#{password},#{systemAdminFlag},#{createTime},#{creator},#{modifier},#{modifyTime},#{status})")
 	@Options(useGeneratedKeys = true, keyProperty = "id", keyColumn = "id")
 	void insert(User user);
 
