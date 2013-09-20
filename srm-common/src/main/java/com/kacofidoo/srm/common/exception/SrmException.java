@@ -11,7 +11,17 @@ package com.kacofidoo.srm.common.exception;
  */
 public class SrmException extends Exception {
 
-	private static final long serialVersionUID = 4560648894965065095L;
+    protected int errorCode;
+
+    public int getErrorCode() {
+        return errorCode;
+    }
+
+    public void setErrorCode(int errorCode) {
+        this.errorCode = errorCode;
+    }
+
+    private static final long serialVersionUID = 4560648894965065095L;
 
 	public SrmException() {
 		super();

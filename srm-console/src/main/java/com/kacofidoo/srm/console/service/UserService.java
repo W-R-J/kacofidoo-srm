@@ -13,16 +13,16 @@ import com.kacofidoo.srm.orm.entity.User;
  */
 public interface UserService {
 
-    User getUserById(String id) throws SrmException;
+	User load(long id) throws SrmException;
 
-    User getUserByName(String username) throws SrmException;
+	User load(String username) throws SrmException;
 
-    void deleteUserById(String id) throws SrmException;
+	void deleteUserById(long id) throws SrmException;
 
-    void deleteUserByName(String name) throws SrmException;
+	void deleteUserByName(String name) throws SrmException;
 
-    void queryWithPage(int pageNo, int pageSize) throws SrmException;
+	void queryWithPage(int pageNo, int pageSize, String username, Long companyId) throws SrmException;
 
-    void register(User user) throws SrmException;
+	void register(User user) throws SrmException;
 
 }

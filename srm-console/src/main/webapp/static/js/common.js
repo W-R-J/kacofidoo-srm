@@ -15,3 +15,7 @@ function getParam(href, paramName) {
 		}
 	}
 }
+
+function jumpTo(str){
+window.location.href = str;
+}

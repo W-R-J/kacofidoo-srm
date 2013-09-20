@@ -34,14 +34,21 @@
 	</bean>
 
 	<tx:annotation-driven transaction-manager="transactionManager" />
-
+	
+	
+	
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dataSource" />
+		<property name="typeAliasesPackage" value="com.kacofidoo.srm.orm.entity" />
 	</bean>
 
 
 	<bean id="userDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
 		<property name="mapperInterface" value="com.kacofidoo.srm.orm.dao.UserDao" />
+		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
+	</bean>
+	<bean id="companyDao" class="org.mybatis.spring.mapper.MapperFactoryBean">
+		<property name="mapperInterface" value="com.kacofidoo.srm.orm.dao.CompanyDao" />
 		<property name="sqlSessionFactory" ref="sqlSessionFactory" />
 	</bean>
 </beans>

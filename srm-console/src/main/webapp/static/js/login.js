@@ -1,5 +1,4 @@
 $(function() {
-$('.date').datepicker();
 			var loginErrorCode = parseInt(getParam(window.location.href, "errorCode"));
 			switch (loginErrorCode) {
 			case 1:
@@ -14,12 +13,8 @@ $('.date').datepicker();
 			default:
 				break;
 			};
-        $('#btnRegisterSubmit').click(function(){
-        $('#formRegister').ajaxSubmit(function(data){
-        console.log(data);
-        if(data.success){
-        $('#formRegister').modal('hide');
-        }
-        });
-        });
+
+			$('#btnRegister').click(function(){
+			jumpTo('register.html');
+			});
 });
