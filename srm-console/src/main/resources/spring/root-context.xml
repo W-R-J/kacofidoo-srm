@@ -21,15 +21,12 @@
 		<property name="unauthorizedUrl" value="/static/404.html" />
 		<property name="filterChainDefinitions">
 			<value>
-				/login.html=anon
+				/=anon
+				/login.jsp=anon
 				/auth/logout=logout
 				/auth/login=anon
 				/static/**=anon
-
 			</value>
-							<!-- 
-				/**=authc,rest
-				 -->
 		</property>
 	</bean>
 	<!-- 用户授权/认证信息Cache, 采用EhCache 缓存 -->

@@ -49,7 +49,7 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <a class="brand" href="#">SRM</a>
+            <a class="brand" href="${pageContext.request.contextPath}">SRM</a>
 
             <div class="nav-collapse collapse">
                 <ul class="nav">
@@ -78,6 +78,7 @@
                         <a href="#contact">抱怨处理</a>
                     </li>
                 </ul>
+                <c:if test="${}"></c:if>
             </div>
             <!--/.nav-collapse -->
         </div>
