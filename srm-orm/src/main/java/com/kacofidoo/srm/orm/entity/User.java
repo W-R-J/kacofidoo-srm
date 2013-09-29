@@ -2,11 +2,21 @@ package com.kacofidoo.srm.orm.entity;
 
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.ManyToOne;
+import javax.persistence.Table;
+
 /**
  * 用户
  * 
  * @author Jeff.Tsai
  */
+@Entity
+@Table(name = "user")
 public class User extends AbstractEntity {
 
 	private static final long serialVersionUID = -7006104508397409972L;
@@ -18,34 +28,39 @@ public class User extends AbstractEntity {
 	public static final int GENDER_MALE = 1;
 	public static final int GENDER_FEMALE = 2;
 
+	@Id
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private long id;
-
+	@Column(name = "name", length = 255, nullable = false, unique = true)
 	private String name;
-
+	@Column(name = "nickname", length = 255, nullable = true, unique = false)
 	private String nickname;
-
+	@Column(name = "birthday")
 	private Date birthday;
-
+	@Column(name = "gender", length = 1)
 	private int gender;
-
-	private String companyId;
-
+	@ManyToOne
+	private Company company;
+	@Column(name = "company_admin_flag", length = 1)
 	private int companyAdminFlag;
-
+	@Column(name = "password", length = 60, nullable = false)
 	private String password;
-
+	@Column(name = "system_admin_flag")
 	private int systemAdminFlag;
 
 	public Date getBirthday() {
 		return birthday;
 	}
 
-	public int getCompanyAdminFlag() {
-		return companyAdminFlag;
+	/**
+	 * @return the company
+	 */
+	public Company getCompany() {
+		return company;
 	}
 
-	public String getCompanyId() {
-		return companyId;
+	public int getCompanyAdminFlag() {
+		return companyAdminFlag;
 	}
 
 	public int getGender() {
@@ -76,12 +91,16 @@ public class User extends AbstractEntity {
 		this.birthday = birthday;
 	}
 
-	public void setCompanyAdminFlag(int companyAdminFlag) {
-		this.companyAdminFlag = companyAdminFlag;
+	/**
+	 * @param company
+	 *            the company to set
+	 */
+	public void setCompany(Company company) {
+		this.company = company;
 	}
 
-	public void setCompanyId(String companyId) {
-		this.companyId = companyId;
+	public void setCompanyAdminFlag(int companyAdminFlag) {
+		this.companyAdminFlag = companyAdminFlag;
 	}
 
 	public void setGender(int gender) {
