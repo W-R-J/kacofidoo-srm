@@ -7,6 +7,7 @@ import com.kacofidoo.srm.orm.entity.User;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.springframework.beans.propertyeditors.CustomDateEditor;
 import org.springframework.stereotype.Controller;
@@ -42,7 +43,7 @@ public class UserController {
 	}
 
 	@RequestMapping("/register")
-	@RequiresGuest
+	@RequiresAuthentication
 	public void register(User user, HttpServletResponse response) {
 		PrintWriter writer = null;
 		try {

@@ -13,6 +13,7 @@ import org.apache.shiro.authc.SimpleAuthenticationInfo;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.AuthorizationInfo;
+import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
@@ -93,7 +94,15 @@ public class GlobalAuthorizingRealm extends AuthorizingRealm {
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-
-		return null;
+		
+		principals.getRealmNames();
+		
+		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
+		// 获取用户信息的所有资料，如权限角色等.
+		
+//		info.setStringPermissions(权限集合);
+//		info.setRoles(角色集合);
+		
+		return info;
 	}
 }

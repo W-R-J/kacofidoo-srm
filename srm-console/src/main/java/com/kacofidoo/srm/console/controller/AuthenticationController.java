@@ -17,6 +17,8 @@ import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.IncorrectCredentialsException;
 import org.apache.shiro.authc.UnknownAccountException;
 import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
+import org.apache.shiro.authz.annotation.RequiresGuest;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -36,12 +38,14 @@ public class AuthenticationController {
 	@Resource(name = "userService")
 	private UserService userService;
 
+	@RequiresAuthentication
 	@RequestMapping("/logout")
 	public String logout(HttpServletRequest request, HttpServletResponse response) {
 		SecurityUtils.getSubject().logout();
 		return "redirect:/login.html";
 	}
 
+	@RequiresGuest
 	@RequestMapping("/login")
 	public String login(HttpServletRequest request, HttpServletResponse response, LoginCommand loginCommand) {
 
