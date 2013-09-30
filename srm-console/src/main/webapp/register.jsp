@@ -13,6 +13,10 @@
 <!-- Le styles -->
 <link href="static/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 <link href="static/datepicker/datepicker.css" rel="stylesheet">
+
+<link href="favicon.ico" type="image/x-icon" rel=icon>
+<link href="favicon.ico" type="image/x-icon" rel="shortcut icon">
+
 <style type="text/css">
 body {
 	padding-top: 60px;
@@ -25,16 +29,6 @@ body {
 <!--[if lt IE 9]>
     <script src="//cdnjs.bootcss.com/ajax/libs/html5shiv/3.6.2/html5shiv.js"></script>
     <![endif]-->
-
-<!-- Fav and touch icons -->
-<link rel="apple-touch-icon-precomposed" sizes="144x144"
-	href="http://www.bootcss.com/assets/ico/apple-touch-icon-144-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="114x114"
-	href="http://www.bootcss.com/assets/ico/apple-touch-icon-114-precomposed.png">
-<link rel="apple-touch-icon-precomposed" sizes="72x72"
-	href="http://www.bootcss.com/assets/ico/apple-touch-icon-72-precomposed.png">
-<link rel="apple-touch-icon-precomposed" href="http://www.bootcss.com/assets/ico/apple-touch-icon-57-precomposed.png">
-<link rel="shortcut icon" href="http://www.bootcss.com/assets/ico/favicon.png">
 </head>
 
 <body>
@@ -43,15 +37,23 @@ body {
 		<div class="navbar-inner">
 			<div class="container">
 				<button type="button" class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-					<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
 				</button>
 				<a class="brand" href="${pageContext.request.contextPath}">SRM</a>
 
 				<div class="nav-collapse collapse">
 					<ul class="nav">
-						<li class="active"><a href="#">首页</a></li>
-						<li><a href="#about">关于</a></li>
-						<li><a href="#contact">合作</a></li>
+						<li class="active">
+							<a href="#">首页</a>
+						</li>
+						<li>
+							<a href="#about">关于</a>
+						</li>
+						<li>
+							<a href="#contact">合作</a>
+						</li>
 					</ul>
 				</div>
 				<!--/.nav-collapse -->
@@ -104,9 +106,12 @@ body {
 			<div class="control-group">
 				<label class="control-label" for="inputBirthday">出生年月</label>
 				<div class="controls">
-					<div class="input-append date" data-date="2013-09-20" data-date-format="yyyy-mm-dd">
-						<input id="inputBirthday" size="16" name="birthday" type="text" value="2013-09-20"> <span class="add-on"><i
-							class="icon-th"></i></span>
+					<div class="input-append date" data-date="2013-09-20" data-date-format="yyyy-mm-dd" viewMode="years"
+						minViewMode="years">
+						<input id="inputBirthday" size="16" name="birthday" type="text" value="2013-09-20">
+						<span class="add-on">
+							<i class="icon-th"></i>
+						</span>
 					</div>
 				</div>
 			</div>
@@ -118,7 +123,9 @@ body {
 
 		<footer>
 			<p class="text-center">
-				©2013 Jeff.Tsai <a href="mailto:jjeffcaii@outlook.com">jjeffcaii@outlook.com</a> <a href="tel:+8618602162324">+8618602162324</a>
+				©2013 Jeff.Tsai
+				<a href="mailto:jjeffcaii@outlook.com">jjeffcaii@outlook.com</a>
+				<a href="tel:+8618602162324">+8618602162324</a>
 			</p>
 		</footer>
 
