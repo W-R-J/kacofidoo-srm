@@ -41,11 +41,15 @@ public class DataDicDaoTest {
 	public void testSaveOrUpdate() {
 		int oldCount = this.dataDicDao.countAll();
 		DataDic dic = new DataDic();
-		dic.setCatalog(RandomUtils.nextLong());
+		long catalog = RandomUtils.nextLong();
+		dic.setCatalog(catalog);
 		dic.setName(RandomStringUtils.randomAlphanumeric(8));
 		dic.setValue(UUID.randomUUID().toString());
 
 		this.dataDicDao.saveOrUpdate(dic);
+
+		DataDic foo = this.dataDicDao.queryByPropertyForObject("catalog", catalog);
+		Assert.assertNotNull(foo);
 
 		Assert.assertTrue(dic.getId() > 0);
 		int newCount = this.dataDicDao.countAll();

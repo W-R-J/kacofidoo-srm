@@ -7,6 +7,7 @@ package com.kacofidoo.srm.console.service;
 
 import com.kacofidoo.srm.common.exception.SrmException;
 import com.kacofidoo.srm.orm.entity.User;
+import com.kacofidoo.srm.orm.page.Page;
 
 /**
  * @author Jeff.Tsai
@@ -21,7 +22,7 @@ public interface UserService {
 
 	void deleteUserByName(String name) throws SrmException;
 
-	void queryWithPage(int pageNo, int pageSize, String username, Long companyId) throws SrmException;
+	Page<User> queryWithPage(int pageNo, int pageSize, String username, Long companyId) throws SrmException;
 
 	void register(User user) throws SrmException;
 

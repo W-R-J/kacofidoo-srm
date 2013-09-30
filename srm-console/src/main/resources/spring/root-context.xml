@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+	http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:component-scan base-package="com.kacofidoo.srm.console.security" />
+	<context:component-scan base-package="com.kacofidoo.srm.console.service" />
 
 	<!-- Root Context: defines shared resources visible to all other web components -->
 	<!-- shiro -->
@@ -11,7 +16,7 @@
 		<property name="cacheManager" ref="shiroEhcacheManager" />
 	</bean>
 	<!--realm配置，realm是shiro的桥梁，它主要是用来判断subject是否可以登录及权限等 -->
-	<!-- <bean id="globalAuthorizingRealm" class="com.kacofidoo.srm.console.security.GlobalAuthorizingRealm" />  -->
+	<!-- <bean id="globalAuthorizingRealm" class="com.kacofidoo.srm.console.security.GlobalAuthorizingRealm" /> -->
 	<!--shiro过滤器配置，bean的id值须与web中的filter-name的值相同 -->
 	<bean id="shiroFilter" class="org.apache.shiro.spring.web.ShiroFilterFactoryBean">
 		<property name="securityManager" ref="securityManager" />

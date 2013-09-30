@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import com.kacofidoo.srm.orm.dao.DataDicDao;
 import com.kacofidoo.srm.orm.entity.DataDic;
+import com.kacofidoo.srm.orm.utils.DaoSupportImpl;
 
 /**
  * @author weiwei.cai
@@ -14,12 +15,5 @@ import com.kacofidoo.srm.orm.entity.DataDic;
  */
 @Repository("dataDicDao")
 public class DataDicDaoImpl extends DaoSupportImpl<DataDic> implements DataDicDao {
-
-	/**
-	 * 
-	 */
-	public DataDicDaoImpl() {
-		super();
-	}
 
 }

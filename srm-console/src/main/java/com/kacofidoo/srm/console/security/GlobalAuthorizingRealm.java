@@ -1,6 +1,6 @@
 package com.kacofidoo.srm.console.security;
 
-import javax.annotation.Resource;
+import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
@@ -27,7 +27,7 @@ public class GlobalAuthorizingRealm extends AuthorizingRealm {
 
 	private static final Log log = LogFactory.getLog(GlobalAuthorizingRealm.class);
 
-	@Resource(name = "userDao")
+	@Inject
 	private UserDao userDao;
 
 	/**
@@ -55,8 +55,8 @@ public class GlobalAuthorizingRealm extends AuthorizingRealm {
 			/**
 			 * This (very bad) example uses the username as the salt in this sample app. DON'T DO THIS IN A REAL APP!
 			 * 
-			 * Salts should not be based on anything that a user could enter (attackers can exploit this). Instead they should ideally be
-			 * cryptographically-strong randomly generated numbers.
+			 * Salts should not be based on anything that a user could enter (attackers can exploit this). Instead they
+			 * should ideally be cryptographically-strong randomly generated numbers.
 			 */
 			saInfo.setCredentialsSalt(ByteSource.Util.bytes(username));
 
@@ -82,7 +82,7 @@ public class GlobalAuthorizingRealm extends AuthorizingRealm {
 	 * @throws SrmDaoException
 	 */
 	private String getPasswordForUser(final String username) throws SrmDaoException {
-		final User user = this.userDao.getUserByName(username);
+		final User user = this.userDao.queryByPropertyForObject("name", username);
 		return user.getPassword();
 	}
 

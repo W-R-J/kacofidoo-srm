@@ -17,7 +17,7 @@ import javax.persistence.Table;
  * 
  */
 @Entity
-@Table(name = "DATA_DIC")
+@Table(name = "data_dic")
 public class DataDic implements Serializable {
 
 	private static final long serialVersionUID = 6861009279162039284L;

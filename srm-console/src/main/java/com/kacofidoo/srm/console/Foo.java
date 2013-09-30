@@ -25,7 +25,7 @@ public class Foo {
 	public String ready(Model model) throws SrmDaoException {
 		model.addAttribute("nowtime", DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss"));
 		model.addAttribute("countAll", this.userDao.countAll());
-		User user = this.userDao.getUserById(1);
+		User user = this.userDao.load(1L);
 		model.addAttribute("pojo", JsonUtils.toJson(user));
 		return "ready";
 	}
