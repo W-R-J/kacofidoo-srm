@@ -20,7 +20,7 @@ import com.kacofidoo.srm.orm.utils.OrmConfig;
  */
 public class Page<T> {
 	private static final String ATTR_NAME = OrmConfig.getConfig().getString("orm.page.attr");
-	private static final int DEFAULT_PAGE_NO = 0;
+	private static final int DEFAULT_PAGE_NO = 1;
 	private static final int DEFAULT_PAGE_SIZE = 10;
 
 	private int pageNo;
