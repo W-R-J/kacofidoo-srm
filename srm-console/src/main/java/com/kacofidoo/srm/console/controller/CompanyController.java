@@ -30,6 +30,12 @@ public class CompanyController {
 	@Inject
 	private CompanyService companyService;
 
+	@RequestMapping("/supply")
+	public void supply() {
+	}
+	
+	
+	
 	@RequestMapping("/register")
 	public void register(Company company, HttpServletResponse response) {
 		PrintWriter writer = null;

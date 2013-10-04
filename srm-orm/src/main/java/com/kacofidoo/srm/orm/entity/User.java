@@ -1,12 +1,15 @@
 package com.kacofidoo.srm.orm.entity;
 
 import java.util.Date;
+import java.util.Set;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -47,6 +50,8 @@ public class User extends AbstractEntity {
 	private String password;
 	@Column(name = "system_admin_flag")
 	private int systemAdminFlag;
+	@ManyToMany(cascade = { CascadeType.REFRESH, CascadeType.REMOVE })
+	private Set<Role> roles;
 
 	public Date getBirthday() {
 		return birthday;
@@ -81,6 +86,10 @@ public class User extends AbstractEntity {
 
 	public String getPassword() {
 		return password;
+	}
+
+	public Set<Role> getRoles() {
+		return roles;
 	}
 
 	public int getSystemAdminFlag() {
@@ -121,6 +130,10 @@ public class User extends AbstractEntity {
 
 	public void setPassword(String password) {
 		this.password = password;
+	}
+
+	public void setRoles(Set<Role> roles) {
+		this.roles = roles;
 	}
 
 	public void setSystemAdminFlag(int systemAdminFlag) {

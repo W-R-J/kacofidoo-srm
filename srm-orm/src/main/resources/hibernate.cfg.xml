@@ -15,6 +15,6 @@
 		<property name="max_fetch_depth">1</property>
 
 		<!-- create每次都重新建表，update表有更改的时候自动更新，none不对数据库结构进行变动 -->
-		<property name="hibernate.hbm2ddl.auto">update</property>
+		<property name="hibernate.hbm2ddl.auto">create</property>
 	</session-factory>
 </hibernate-configuration>
