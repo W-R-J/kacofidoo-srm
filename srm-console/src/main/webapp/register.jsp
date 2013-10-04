@@ -63,7 +63,8 @@ body {
 
 	<div class="container">
 		<h3>注册</h3>
-		<form id="formRegister" class="form-horizontal" method="post" action="user/register">
+		<form id="formRegister" class="form-horizontal" method="post"
+			action="${pageContext.request.contextPath}/user/register">
 			<div class="control-group">
 				<label class="control-label" for="inputUsername">用户名</label>
 				<div class="controls">
@@ -117,7 +118,7 @@ body {
 			</div>
 			<button class="btn" onclick="history.back();">返回</button>
 			<button class="btn" type="reset">重置</button>
-			<button id="btnRegisterSubmit" class="btn btn-primary">确定</button>
+			<button type="submit" class="btn btn-primary">确定</button>
 		</form>
 
 
@@ -132,8 +133,6 @@ body {
 	</div>
 	<!-- /container -->
 
-	<!-- Le javascript
-================================================== -->
 	<!-- Placed at the end of the document so the pages load faster -->
 	<script type="text/javascript" src="static/jquery/jquery.js"></script>
 	<script type="text/javascript" src="static/bootstrap/js/bootstrap.js"></script>
@@ -145,14 +144,17 @@ body {
 		$(function() {
 			$('.date').datepicker();
 			$("input,select,textarea").not("[type=submit]").jqBootstrapValidation();
-			$('#btnRegisterSubmit').click(function() {
-
-				$('#formRegister').ajaxSubmit(function(data) {
-					console.log(data);
+			$('#formRegister').ajaxForm({
+				success : function(data) {
 					if (data.success) {
 						alert('注册成功!');
+						jumpTo('${pageContext.request.contextPath}/auth/login');
+					} else {
+						alert('注册失败:' + data.data)
 					}
-				});
+				},
+				type : 'post',
+				dataType : 'json'
 			});
 		});
 	</script>
