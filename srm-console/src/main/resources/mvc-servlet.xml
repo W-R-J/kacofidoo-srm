@@ -21,5 +21,18 @@
 	</beans:bean>
 
 	<context:component-scan base-package="com.kacofidoo.srm.console.controller" />
+	<context:component-scan base-package="com.kacofidoo.srm.console.security" />
+
+	<!-- Required for security annotations to work in this servlet -->
+	<beans:bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+	<beans:bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor" />
+
+	<!-- Enable annotation-based controllers using @Controller annotations -->
+	<beans:bean id="annotationUrlMapping" class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
+		<beans:property name="interceptors" ref="currentUserInterceptor" />
+	</beans:bean>
+
+	<beans:bean id="annotationMethodHandlerAdapter" class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
+
 
 </beans:beans>

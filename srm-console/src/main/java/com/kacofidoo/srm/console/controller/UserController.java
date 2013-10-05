@@ -32,7 +32,8 @@ import com.kacofidoo.srm.console.vo.AjaxResponse;
 import com.kacofidoo.srm.orm.entity.User;
 
 /**
- * Created with IntelliJ IDEA. User: jeff Date: 9/19/13 Time: 1:14 PM To change this template use File | Settings | File Templates.
+ * Created with IntelliJ IDEA. User: jeff Date: 9/19/13 Time: 1:14 PM To change this template use File | Settings | File
+ * Templates.
  */
 @Controller
 @RequestMapping("/user")
@@ -51,7 +52,7 @@ public class UserController {
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
-	@RequiresGuest
+	@RequiresAuthentication
 	public void register(User user, HttpServletResponse response, HttpServletRequest request) {
 		PrintWriter writer = null;
 		try {

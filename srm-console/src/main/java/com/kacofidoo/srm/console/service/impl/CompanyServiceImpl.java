@@ -16,7 +16,6 @@ import com.kacofidoo.srm.orm.page.Page;
  */
 @Service("companyService")
 public class CompanyServiceImpl implements CompanyService {
-	
 
 	/*
 	 * (non-Javadoc)
@@ -72,5 +71,7 @@ public class CompanyServiceImpl implements CompanyService {
 		// TODO Auto-generated method stub
 
 	}
+
+
 
 }

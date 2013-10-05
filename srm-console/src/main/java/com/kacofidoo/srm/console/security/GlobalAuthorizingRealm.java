@@ -1,5 +1,8 @@
 package com.kacofidoo.srm.console.security;
 
+import java.util.HashSet;
+import java.util.Set;
+
 import javax.inject.Inject;
 
 import org.apache.commons.lang.StringUtils;
@@ -16,11 +19,11 @@ import org.apache.shiro.authz.AuthorizationInfo;
 import org.apache.shiro.authz.SimpleAuthorizationInfo;
 import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
-import org.apache.shiro.util.ByteSource;
 import org.springframework.stereotype.Service;
 
-import com.kacofidoo.srm.common.exception.SrmDaoException;
 import com.kacofidoo.srm.orm.dao.UserDao;
+import com.kacofidoo.srm.orm.entity.Permission;
+import com.kacofidoo.srm.orm.entity.Role;
 import com.kacofidoo.srm.orm.entity.User;
 
 @Service("globalAuthorizingRealm")
@@ -41,50 +44,23 @@ public class GlobalAuthorizingRealm extends AuthorizingRealm {
 
 		// Null username is invalid
 		if (StringUtils.isEmpty(username)) {
+			if (log.isWarnEnabled()) {
+				log.warn("login username is blank.");
+			}
 			throw new AccountException("Empty usernames are not allowed by this realm.");
 		}
 
-		AuthenticationInfo info = null;
-		try {
-			String password = getPasswordForUser(username);
-
-			if (StringUtils.isEmpty(password)) {
-				throw new UnknownAccountException("No account found for user [" + username + "]");
+		User user = this.userDao.queryByPropertyForObject("name", username);
+		if (user == null) {
+			final String errmsg = "No account found for user [" + username + "]";
+			if (log.isWarnEnabled()) {
+				log.warn(errmsg);
 			}
-
-			SimpleAuthenticationInfo saInfo = new SimpleAuthenticationInfo(username, password, getName());
-			/**
-			 * This (very bad) example uses the username as the salt in this sample app. DON'T DO THIS IN A REAL APP!
-			 * 
-			 * Salts should not be based on anything that a user could enter (attackers can exploit this). Instead they
-			 * should ideally be cryptographically-strong randomly generated numbers.
-			 */
-			saInfo.setCredentialsSalt(ByteSource.Util.bytes(username));
-
-			info = saInfo;
-
-		} catch (SrmDaoException e) {
-			final String message = "There was a SQL error while authenticating user [" + username + "]";
-			if (log.isErrorEnabled()) {
-				log.error(message, e);
-			}
-
-			// Rethrow any SQL errors as an authentication exception
-			throw new AuthenticationException(message, e);
+			throw new UnknownAccountException(errmsg);
 		}
-		return info;
-	}
-
-	/**
-	 * 查找密码
-	 * 
-	 * @param username
-	 * @return
-	 * @throws SrmDaoException
-	 */
-	private String getPasswordForUser(final String username) throws SrmDaoException {
-		final User user = this.userDao.queryByPropertyForObject("name", username);
-		return user.getPassword();
+		String password = user.getPassword();
+		SimpleAuthenticationInfo saInfo = new SimpleAuthenticationInfo(user.getId(), password, getName());
+		return saInfo;
 	}
 
 	/*
@@ -94,15 +70,22 @@ public class GlobalAuthorizingRealm extends AuthorizingRealm {
 	 */
 	@Override
 	protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-		
-		principals.getRealmNames();
-		
+
+		Long userId = (Long) principals.fromRealm(getName()).iterator().next();
+		User user = this.userDao.load(userId);
+		if (user == null) {
+			return null;
+		}
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-		// 获取用户信息的所有资料，如权限角色等.
-		
-//		info.setStringPermissions(权限集合);
-//		info.setRoles(角色集合);
-		
+		Set<String> permissions = null;
+		for (Role role : user.getRoles()) {
+			info.addRole(role.getName());
+			permissions = new HashSet<String>();
+			for (Permission p : role.getPermissions()) {
+				permissions.add(p.getName());
+			}
+			info.addStringPermissions(permissions);
+		}
 		return info;
 	}
 }

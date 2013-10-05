@@ -5,6 +5,7 @@ package com.kacofidoo.srm.console.service;
 
 import com.kacofidoo.srm.common.exception.SrmException;
 import com.kacofidoo.srm.orm.entity.Company;
+import com.kacofidoo.srm.orm.entity.User;
 import com.kacofidoo.srm.orm.page.Page;
 
 /**

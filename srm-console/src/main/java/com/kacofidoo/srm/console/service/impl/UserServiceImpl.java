@@ -9,6 +9,7 @@ import java.util.Date;
 
 import javax.inject.Inject;
 
+import org.apache.shiro.SecurityUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -99,4 +100,17 @@ public class UserServiceImpl implements UserService {
 				company }, pageNo, pageSize);
 	}
 
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.kacofidoo.srm.console.service.CompanyService#getCurrentUser()
+	 */
+	@Override
+	public User getCurrentUser() throws SrmException {
+		final Long currentUserId = (Long) SecurityUtils.getSubject().getPrincipal();
+		if (currentUserId == null) {
+			return null;
+		}
+		return this.userDao.load(currentUserId);
+	}
 }

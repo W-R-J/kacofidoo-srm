@@ -26,4 +26,5 @@ public interface UserService {
 
 	void register(User user) throws SrmException;
 
+	User getCurrentUser() throws SrmException;
 }

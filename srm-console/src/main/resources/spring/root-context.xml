@@ -42,11 +42,10 @@
 	<bean id="shiroEhcacheManager" class="org.apache.shiro.cache.ehcache.EhCacheManager">
 		<property name="cacheManagerConfigFile" value="classpath:ehcache-shiro.xml" />
 	</bean>
+
+	<!-- Post processor that automatically invokes init() and destroy() methods -->
 	<bean id="lifecycleBeanPostProcessor" class="org.apache.shiro.spring.LifecycleBeanPostProcessor" />
-	<!-- Enable Shiro Annotations for Spring-configured beans. Only run after -->
-	<!-- the lifecycleBeanProcessor has run: -->
-	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" depends-on="lifecycleBeanPostProcessor" />
-	<bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
-		<property name="securityManager" ref="securityManager" />
-	</bean>
+	<!-- Spring AOP auto-proxy creation (required to support Shiro annotations) -->
+	<bean class="org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator" />
+
 </beans>
