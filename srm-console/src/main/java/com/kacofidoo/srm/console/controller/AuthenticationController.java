@@ -8,23 +8,23 @@ package com.kacofidoo.srm.console.controller;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
 
+import org.apache.commons.lang.StringUtils;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.IncorrectCredentialsException;
-import org.apache.shiro.authc.UnknownAccountException;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.apache.shiro.authz.annotation.RequiresGuest;
-import org.apache.shiro.subject.Subject;
+import org.apache.shiro.session.Session;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.kacofidoo.srm.common.exception.SrmException;
 import com.kacofidoo.srm.console.service.UserService;
+import com.kacofidoo.srm.console.utils.LoginUtils;
 import com.kacofidoo.srm.console.vo.LoginCommand;
+import com.kacofidoo.srm.orm.entity.User;
 
 /**
  * @author Jeff.Tsai
@@ -45,52 +45,69 @@ public class AuthenticationController {
 		return "redirect:/login.html";
 	}
 
+	@RequestMapping(value = "/login")
 	@RequiresGuest
-	@RequestMapping("/login")
 	public String login(HttpServletRequest request, HttpServletResponse response, LoginCommand loginCommand) {
 
+		int loginCode;
+
 		if (SecurityUtils.getSubject().isAuthenticated()) {
-			return "index";
-		}
+			loginCode = LoginUtils.LOGIN_SUCCESS;
+		} else {
+			loginCode = LoginUtils.login(loginCommand);
 
-		LoginCommand cmd = loginCommand;
-
-		UsernamePasswordToken token = new UsernamePasswordToken(cmd.getUsername(), cmd.getPassword());
-		// 记录该令牌
-		token.setRememberMe(cmd.isRememberMe());
-		// subject权限对象
-		Subject subject = SecurityUtils.getSubject();
-		int errorCode = 3;
-		try {
-			subject.login(token);
-		} catch (UnknownAccountException ex) {// 用户名没有找到
-			errorCode = 1;
-			if (log.isDebugEnabled()) {
-				log.debug(ex);
-			}
-			ex.printStackTrace();
-		} catch (IncorrectCredentialsException ex) {// 用户名密码不匹配
-			errorCode = 2;
-			if (log.isDebugEnabled()) {
-				log.debug(ex);
-			}
-			ex.printStackTrace();
-		} catch (AuthenticationException ex) {// 其他的登录错误
-			if (log.isDebugEnabled()) {
-				log.debug(ex);
-			}
-			ex.printStackTrace();
 		}
 
 		// 验证是否成功登录的方法
-		if (subject.isAuthenticated()) {
-			HttpSession session = request.getSession();
+		if (loginCode != LoginUtils.LOGIN_SUCCESS) {
+			return "redirect:/login.jsp?errorCode=" + loginCode;
+		} else {
+			Session session = SecurityUtils.getSubject().getSession();
 			session.setAttribute("username", loginCommand.getUsername());
 			session.setAttribute("loginType", loginCommand.getLoginType());
 			session.setAttribute("loginTimeMills", System.currentTimeMillis());
-			return "index";
 		}
-		return "redirect:/login.jsp?errorCode=" + errorCode;
+
+		try {
+			User user = this.userService.getCurrentUser();
+			if (user.getCompany() == null) {
+				return "company_register";
+			} else if (loginCommand.getLoginType() == LoginCommand.LOGIN_TYPE_BUYER) {
+				return "index_buyer";
+			} else if (loginCommand.getLoginType() == LoginCommand.LOGIN_TYPE_SELL) {
+				return "index_sell";
+			} else if (loginCommand.getLoginType() == LoginCommand.LOGIN_TYPE_ROOT) {
+				return "index_root";
+			}
+		} catch (SrmException e) {
+			e.printStackTrace();
+		}
+
+		return "index";
 	}
 
+	@RequestMapping("/switch/{type}")
+	@RequiresAuthentication
+	public String switchLoginType(@PathVariable("type") String type) throws SrmException {
+		Session session = SecurityUtils.getSubject().getSession();
+		if (StringUtils.equalsIgnoreCase(type, "sell")) {
+			session.setAttribute("loginType", LoginCommand.LOGIN_TYPE_SELL);
+		} else if (StringUtils.equalsIgnoreCase(type, "buyer")) {
+			session.setAttribute("loginType", LoginCommand.LOGIN_TYPE_BUYER);
+		}
+
+		int loginType = (Integer) session.getAttribute("loginType");
+		if (loginType == LoginCommand.LOGIN_TYPE_BUYER) {
+			return "index_buyer";
+		} else if (loginType == LoginCommand.LOGIN_TYPE_SELL) {
+			return "index_sell";
+		} else {
+			final String errmsg = "switch login type failed: unknow login type " + loginType;
+			if (log.isErrorEnabled()) {
+				log.error(errmsg);
+			}
+			throw new SrmException(errmsg);
+		}
+
+	}
 }

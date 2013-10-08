@@ -1,5 +1,5 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
-<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@include file="/static/header.jsp"%>
 <!DOCTYPE html>
 <html>
 <head>
@@ -97,7 +97,7 @@ body {
 					sed odio dui.</p>
 
 				<p>
-					<a class="btn" href="#">View details Â»</a>
+					<a class="btn" href="#">View details</a>
 				</p>
 			</div>
 			<div class="span4">
@@ -108,7 +108,7 @@ body {
 					sed odio dui.</p>
 
 				<p>
-					<a class="btn" href="#">View details Â»</a>
+					<a class="btn" href="#">View details</a>
 				</p>
 			</div>
 			<div class="span4">
@@ -119,7 +119,7 @@ body {
 					justo sit amet risus.</p>
 
 				<p>
-					<a class="btn" href="#">View details Â»</a>
+					<a class="btn" href="#">View details</a>
 				</p>
 			</div>
 		</div>
@@ -160,7 +160,7 @@ body {
 							<select id="inputLoginType" name="loginType">
 								<option value="1">采购商</option>
 								<option value="2">供应商</option>
-								<option value="-1">管理员</option>
+								<option value="9">管理员</option>
 							</select>
 						</div>
 					</div>

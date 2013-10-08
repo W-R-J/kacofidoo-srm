@@ -62,65 +62,44 @@ body {
 	</div>
 
 	<div class="container">
-		<form id="formCheck" class="form-horizontal" method="post" action="${pageContext.request.contextPath}/user/register">
-		
-		</form>
-
 		<form id="formRegister" class="form-horizontal" method="post"
-			action="${pageContext.request.contextPath}/user/register">
+			action="${pageContext.request.contextPath}/company/register">
 			<div class="control-group">
-				<label class="control-label" for="inputUsername">用户名</label>
+				<label class="control-label" for="inputCompanyName">公司名称</label>
 				<div class="controls">
-					<input type="email" id="inputUsername" name="name" minlength="3" maxlength="200" placeholder="邮箱" required>
+					<input type="ext" id="inputCompanyName" name="name" minlength="3" maxlength="200" placeholder="公司名称" required>
+					<p class="help-block"></p>
+					<input type="button" id="btnValidate" value="验证">
+				</div>
+			</div>
+			<div class="control-group">
+				<label class="control-label" for="inputCompanyDescription">公司简介</label>
+				<div class="controls">
+					<textarea rows="3" id="inputCompanyDescription" maxlength="2000" name="description" placebholder="公司简介文字"></textarea>
 					<p class="help-block"></p>
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label" for="inputPassword">密码</label>
+				<label class="control-label" for="inputWebsite">公司网址</label>
 				<div class="controls">
-					<input type="password" id="inputPassword" minlength="6" maxlength="12" name="password" placeholder="6-12位" required>
+					<input type="text" id="inputWebsite" maxlength="300" name="website" placebholder="公司网址，如: http://www.baidu.com">
 					<p class="help-block"></p>
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label" for="inputPassword2">重复密码</label>
+				<label class="control-label" for="inputAddress">公司地址</label>
 				<div class="controls">
-					<input type="password" data-validation-matches-match="password" data-validation-matches-message="密码输入不一致"
-						id="inputPassword2" minlength="6" maxlength="12" placeholder="6-12位" required>
+					<input type="text" id="inputAddress" maxlength="300" name="address" placebholder="公司详细地址">
 					<p class="help-block"></p>
 				</div>
 			</div>
 			<div class="control-group">
-				<label class="control-label" for="inputNickname">昵称</label>
+				<label class="control-label" for="inputZipcode">邮政编码</label>
 				<div class="controls">
-					<input type="text" id="inputNickname" maxlength="200" name="nickname" placebholder="用户昵称">
+					<input type="number" id="inputZipcode" maxlength="6" minlength="6" name="zipcode" placebholder="邮政编码">
 					<p class="help-block"></p>
 				</div>
 			</div>
-			<div class="control-group">
-				<label class="control-label" for="inputGender">性别</label>
-				<div class="controls">
-					<select id="inputGender" name="gender">
-						<option value="0">保密</option>
-						<option value="1">男</option>
-						<option value="2">女</option>
-					</select>
-				</div>
-			</div>
-			<div class="control-group">
-				<label class="control-label" for="inputBirthday">出生年月</label>
-				<div class="controls">
-					<div class="input-append date" data-date="2013-09-20" data-date-format="yyyy-mm-dd" viewMode="years"
-						minViewMode="years">
-						<input id="inputBirthday" size="16" name="birthday" type="text" value="2013-09-20">
-						<span class="add-on">
-							<i class="icon-th"></i>
-						</span>
-					</div>
-				</div>
-			</div>
-			<button class="btn" onclick="history.back();">返回</button>
-			<button class="btn" type="reset">重置</button>
 			<button type="submit" class="btn btn-primary">确定</button>
 		</form>
 
@@ -147,11 +126,28 @@ body {
 		$(function() {
 			$('.date').datepicker();
 			$("input,select,textarea").not("[type=submit]").jqBootstrapValidation();
+			$('#btnValidate').click(function() {
+				$.ajax({
+					url : '${pageContext.request.contextPath}/company/validate',
+					data : {
+						companyName : $('#inputCompanyName').val()
+					},
+					dataType : 'json',
+					method : 'get',
+					success : function(resp) {
+						if (resp.success) {
+							alert('恭喜，该公司尚未被注册！');
+						} else {
+							alert('抱歉，该公司已经被注册！您可进入公司申诉页面进行公司申诉!');
+						}
+					}
+				});
+			});
+
 			$('#formRegister').ajaxForm({
 				success : function(data) {
 					if (data.success) {
 						alert('注册成功!');
-						jumpTo('${pageContext.request.contextPath}/auth/login');
 					} else {
 						alert('注册失败:' + data.data)
 					}

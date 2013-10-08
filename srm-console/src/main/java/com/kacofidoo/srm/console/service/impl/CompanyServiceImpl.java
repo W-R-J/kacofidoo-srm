@@ -3,10 +3,13 @@
  */
 package com.kacofidoo.srm.console.service.impl;
 
+import javax.inject.Inject;
+
 import org.springframework.stereotype.Service;
 
 import com.kacofidoo.srm.common.exception.SrmException;
 import com.kacofidoo.srm.console.service.CompanyService;
+import com.kacofidoo.srm.orm.dao.CompanyDao;
 import com.kacofidoo.srm.orm.entity.Company;
 import com.kacofidoo.srm.orm.page.Page;
 
@@ -16,6 +19,9 @@ import com.kacofidoo.srm.orm.page.Page;
  */
 @Service("companyService")
 public class CompanyServiceImpl implements CompanyService {
+
+	@Inject
+	private CompanyDao companyDao;
 
 	/*
 	 * (non-Javadoc)
@@ -72,6 +78,15 @@ public class CompanyServiceImpl implements CompanyService {
 
 	}
 
-
+	/*
+	 * (non-Javadoc)
+	 * 
+	 * @see com.kacofidoo.srm.console.service.CompanyService#exist(java.lang.String)
+	 */
+	@Override
+	public boolean exist(String companyName) throws SrmException {
+		int count = this.companyDao.countByProperty("name", companyName);
+		return count > 0;
+	}
 
 }

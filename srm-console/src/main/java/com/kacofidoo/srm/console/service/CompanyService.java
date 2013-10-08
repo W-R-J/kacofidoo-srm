@@ -5,7 +5,6 @@ package com.kacofidoo.srm.console.service;
 
 import com.kacofidoo.srm.common.exception.SrmException;
 import com.kacofidoo.srm.orm.entity.Company;
-import com.kacofidoo.srm.orm.entity.User;
 import com.kacofidoo.srm.orm.page.Page;
 
 /**
@@ -15,6 +14,8 @@ import com.kacofidoo.srm.orm.page.Page;
 public interface CompanyService {
 
 	Company load(long id) throws SrmException;
+	
+	boolean exist(String companyName) throws SrmException;
 
 	Company queryByName(String companyName) throws SrmException;
 
@@ -23,5 +24,5 @@ public interface CompanyService {
 	Page<Company> queryWithPage(int pageNo, int pageSize) throws SrmException;
 
 	void delete(long id) throws SrmException;
-
+	
 }

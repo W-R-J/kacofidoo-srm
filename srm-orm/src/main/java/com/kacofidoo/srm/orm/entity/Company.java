@@ -30,7 +30,7 @@ public class Company extends AbstractEntity {
 	String description;
 	@Column(name = "website", length = 300)
 	String website;
-	@Column(name = "adress", length = 300)
+	@Column(name = "address", length = 300)
 	String address;
 	@Column(name = "zipcode", length = 6)
 	String zipcode;
